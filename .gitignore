@@ -1,0 +1,13 @@
+/HELP.md
+/mvnw
+/mvnw.cmd
+/.idea/
+/.mvn/
+
+*.class
+*.iml
+/target
+/infrastructure/target/
+/domain/target/
+/application/target/
+/share/target/

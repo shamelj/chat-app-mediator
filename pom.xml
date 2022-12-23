@@ -6,7 +6,12 @@
 
     <groupId>org.example</groupId>
     <artifactId>chat-app-mediato</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>Client</module>
+        <module>Server</module>
+    </modules>
 
 
 </project>
