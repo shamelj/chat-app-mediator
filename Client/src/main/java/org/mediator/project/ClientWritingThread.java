@@ -35,8 +35,6 @@ public class ClientWritingThread extends Thread {
         } while (!message.trim().equalsIgnoreCase(EXIT_STRING));
         sendToServer(EXIT_STRING);
         socket.shutdownOutput();
-        socket.getInputStream().close();
-        socket.close();
 
     }
 

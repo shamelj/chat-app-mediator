@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 
 import java.io.DataInputStream;
+import java.net.Socket;
 
 @RequiredArgsConstructor
 class ClientListener extends Thread {

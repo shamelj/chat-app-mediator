@@ -1,9 +1,7 @@
 package org.mediator.project;
 
 import org.mediator.project.client.Client;
-import org.mediator.project.mediator.ChatMediator;
 import org.mediator.project.mediator.ChatMediatorFactory;
-import org.mediator.project.mediator.SingleChatroomMediator;
 
 import java.io.IOException;
 import java.net.ServerSocket;

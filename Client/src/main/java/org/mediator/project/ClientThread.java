@@ -28,7 +28,7 @@ public class ClientThread extends Thread {
     @Override
     public void run() {
         new ClientWritingThread(socket, clientName, terminal).start();
-        new ClientReadingThread(socket, clientName, terminal).start();
+        new ClientReadingThread(socket, terminal).start();
     }
 }
 

@@ -13,15 +13,12 @@ public class ClientReadingThread extends Thread {
 
     private final Socket socket;
 
-    private final String clientName;
-
     private final DataInputStream inputStream;
 
     @SneakyThrows
-    public ClientReadingThread(Socket socket, String clientName, Terminal terminal) {
+    public ClientReadingThread(Socket socket, Terminal terminal) {
         this.terminal = terminal;
         this.socket = socket;
-        this.clientName = clientName;
         inputStream = new DataInputStream((socket.getInputStream()));
     }
 

@@ -14,6 +14,8 @@ public class Client {
     private final DataInputStream input;
     private final DataOutputStream output;
     private final ChatMediator mediator;
+
+    private final Socket socket;
     @Getter
     private String username;
 
@@ -21,7 +23,7 @@ public class Client {
     public Client(Socket clientSocket, ChatMediator mediator) {
         this.input = new DataInputStream(clientSocket.getInputStream());
         this.output = new DataOutputStream(clientSocket.getOutputStream());
-
+        this.socket = clientSocket;
         this.mediator = mediator;
     }
 
@@ -41,8 +43,13 @@ public class Client {
         output.writeUTF(new Date() + "|" + sender + ": " + message);
     }
 
+    @SneakyThrows
     public void logout() {
         mediator.removeClient(this);
+        if (!socket.isOutputShutdown())
+            socket.shutdownOutput();
+        if (!socket.isClosed())
+            socket.close();
     }
 
     @Override
