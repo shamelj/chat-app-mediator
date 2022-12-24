@@ -2,6 +2,7 @@ package org.mediator.project;
 
 import org.mediator.project.client.Client;
 import org.mediator.project.mediator.ChatMediator;
+import org.mediator.project.mediator.ChatMediatorFactory;
 import org.mediator.project.mediator.SingleChatroomMediator;
 
 import java.io.IOException;
@@ -11,17 +12,26 @@ public class Main {
 
     private static final int PORT = 1234;
 
-    private static ChatMediator mediator = new SingleChatroomMediator();
+    public static final Terminal terminal = ConsoleTerminal.getInstance();
+
+    private static final ChatMediatorFactory mediatorFactory = new ChatMediatorFactory();
 
     public static void main(String[] args) throws IOException {
 
         ServerSocket serverSocket = new ServerSocket(PORT);
 
+        var type = terminal.read("Enter chatting type: \nsingle-chatroom\npairs");
+
+        var mediator = mediatorFactory.getChatMediator(type);
+
+        if(mediator == null) {
+            return;
+        }
+
         new ExitThread(serverSocket).start();
 
         while (true) {
-            var client = new Client(serverSocket.accept(), mediator);
-            new Thread(() -> mediator.addClient(client)).start();
+            mediator.addClient(new Client(serverSocket.accept(), mediator));
         }
     }
 

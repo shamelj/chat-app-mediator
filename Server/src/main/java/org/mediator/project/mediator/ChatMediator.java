@@ -4,9 +4,9 @@ import org.mediator.project.client.Client;
 
 public interface ChatMediator {
 
-    void addClient(Client clientSocket);
+    void addClient(Client client);
 
-    void sendMessage(String username, String message);
+    void sendMessage(Client sender, String message);
 
-    void logout(Client client);
+    void removeClient(Client client);
 }

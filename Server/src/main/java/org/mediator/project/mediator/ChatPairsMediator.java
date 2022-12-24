@@ -1,46 +1,49 @@
 package org.mediator.project.mediator;
 
+import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.mediator.project.ConsoleTerminal;
 import org.mediator.project.Terminal;
 import org.mediator.project.client.Client;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
+import java.util.*;
 
 public class ChatPairsMediator implements ChatMediator {
     private final Terminal terminal;
 
-    private final Collection<Client> singlesPool;
-    private final Collection<Pair> doublesPool;
+    private final List<Client> singlesPool;
+    private final Map<Client, Client> doublesPool;
 
     public ChatPairsMediator() {
         terminal = ConsoleTerminal.getInstance();
-        singlesPool = Collections.synchronizedSet(new HashSet<>());
-        doublesPool = Collections.synchronizedSet(new HashSet<>());
+        singlesPool = Collections.synchronizedList(new LinkedList<>());
+        doublesPool = Collections.synchronizedMap(new HashMap<>());
     }
 
     @Override
     public void addClient(Client client) {
         if (singlesPool.isEmpty()) {
             singlesPool.add(client);
+            terminal.write(client + " is waiting");
         } else {
-
+            var second =  singlesPool.remove(0);
+            doublesPool.putIfAbsent(client, second);
+            doublesPool.putIfAbsent(second, client);
+            terminal.write(client + " talk with " + second);
         }
     }
 
     @Override
-    public void sendMessage(String username, String message) {
+    public void sendMessage(Client sender, String message) {
+        doublesPool.get(sender).send(message);
     }
 
     @Override
     @SneakyThrows
-    public void logout(Client client) {
-    }
-
-    private class Pair {
-        Client first;
-        Client second;
+    public void removeClient(Client client) {
+        var other = doublesPool.remove(client);
+        doublesPool.remove(other);
+        singlesPool.add(other);
+        terminal.write(client + " left, "+other+" is waiting");
     }
 }

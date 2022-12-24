@@ -32,7 +32,7 @@ public class Client {
     }
 
     public void send(String message) {
-        mediator.sendMessage(getUsername(), message);
+        mediator.sendMessage(this, message);
     }
 
     @SneakyThrows
@@ -42,7 +42,7 @@ public class Client {
     }
 
     public void logout() {
-        mediator.logout(this);
+        mediator.removeClient(this);
     }
 
     @Override

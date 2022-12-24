@@ -28,21 +28,21 @@ public class SingleChatroomMediator implements ChatMediator {
 
         terminal.write(client + " logged in");
 
-        sendMessage(client.getUsername(), "Logged in!");
+        sendMessage(client, "Logged in!");
 
     }
 
     @Override
-    public void sendMessage(String senderName, String message) {
-        terminal.write(senderName + " is writing");
-        clients.forEach(client -> client.receive(senderName, message));
+    public void sendMessage(Client sender, String message) {
+        terminal.write(sender + " is writing");
+        clients.forEach(client -> client.receive(sender.getUsername(), message));
     }
 
     @Override
     @SneakyThrows
-    public void logout(Client client) {
+    public void removeClient(Client client) {
         terminal.write(client + " logged out");
-        sendMessage(client.getUsername(), "Logged Out :'^(");
+        sendMessage(client, "Logged Out :'^(");
         clients.remove(client);
     }
 }
