@@ -25,13 +25,14 @@ public class ChatPairsMediator implements ChatMediator {
         if (singlesPool.isEmpty()) {
             singlesPool.add(client);
             terminal.write(client + " is waiting");
+            sendMessage(client, "Logged in!");
         } else {
             var second = singlesPool.remove(0);
             doublesPool.putIfAbsent(client, second);
             doublesPool.putIfAbsent(second, client);
             terminal.write(client + " talk with " + second);
+            sendMessage(second, client + " talk with " + second);
         }
-        sendMessage(client, "Logged in!");
     }
 
     @Override
